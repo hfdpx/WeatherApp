@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- 页面说明：天气信息主界面 -->
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary">
+
+    <!-- 背景图片位置：高和宽都设置成match_parent，由于FrameLayout默认情况下会将控件都放在左上角
+    因此ScrollView会完全覆盖住ImageView，所以ImageView也就变成背景图片了-->
+    <ImageView
+        android:id="@+id/bing_pic_img"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop" />
+
+    <!-- DrawerLayout第一个子控件用于显示主屏幕内容，第二个子控件用于显示滑动菜单的内容-->
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!--ScrollView外面嵌套了一个SwipeRefreshLayout，这样ScrollView就拥有自动刷新的功能了-->
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!-- 将天气部分零散的布局文件引入 -->
+            <!-- 滚动方式查看 -->
+            <ScrollView
+                android:id="@+id/weather_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none"
+                android:overScrollMode="never">
+
+                <!--引入LinearLayout原因：因为ScrollView只允许存在一个直接子布局-->
+                <!--android:fitsSystemWindows="true":避免背景图和状态栏融合在一起-->
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fitsSystemWindows="true">
+
+                    <!-- 将天气部分零散的布局文件引入 -->
+                    <include layout="@layout/title" />
+                    <include layout="@layout/now" />
+                    <include layout="@layout/forecast" />
+                    <include layout="@layout/aqi" />
+                    <include layout="@layout/suggestion" />
+
+                </LinearLayout>
+
+            </ScrollView>
+
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+        <!--在第二个子控件内容的位置添加遍历省市数据的碎片-->
+        <fragment
+            android:id="@+id/choose_area_fragment"
+            android:name="com.coolweather.android.ChooseAreaFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            />
+
+    </android.support.v4.widget.DrawerLayout>
+
+</FrameLayout>
